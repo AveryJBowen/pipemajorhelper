@@ -20,7 +20,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         try {
             String select = "SELECT BandName FROM Info;";
             dbHelper = new DBHelper(this);
@@ -52,7 +51,9 @@ public class MainActivity extends AppCompatActivity {
             bandDB.execSQL(info);
             bandDB.close();
             dbHelper.close();
-            setContentView(R.layout.activity_main);
+            bandName = band.getText().toString();
+            finish();
+            startActivity(getIntent());
         }
         catch (Exception e){
             Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT);
