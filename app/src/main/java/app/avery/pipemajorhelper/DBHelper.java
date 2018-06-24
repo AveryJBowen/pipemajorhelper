@@ -8,7 +8,6 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
@@ -59,6 +58,38 @@ public class DBHelper extends SQLiteOpenHelper {
             e.getMessage();
         }
     }
+
+    public boolean NewUser(){
+        SQLiteDatabase checkDB = null;
+        boolean ret = false;
+        try{
+            String path = dbPath + dbName + ".db";
+            File aFile = new File(path);
+            if(aFile.exists()){
+                checkDB = SQLiteDatabase.openDatabase(path, null, SQLiteDatabase.OPEN_READWRITE);
+                if(checkDB != null){
+                    Cursor tabChk = checkDB.rawQuery("SELECT BandName FROM sqlite_master where type='table' and name='Info';", null);
+                    boolean playersTabExists = false;
+                    if(tabChk != null){
+                        tabChk.moveToNext();
+                        playersTabExists = !tabChk.isAfterLast();
+                        tabChk.close();
+                    }
+                    if(playersTabExists){
+                        ret = true;
+                    }
+                }
+            }
+        }
+        catch (SQLiteException e){
+            e.getMessage();
+        }
+        if(checkDB != null){
+            checkDB.close();
+        }
+        return ret;
+    }
+
     private boolean checkDB(){
         SQLiteDatabase checkDB = null;
         boolean ret = false;
