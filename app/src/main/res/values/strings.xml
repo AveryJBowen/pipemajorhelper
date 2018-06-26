@@ -11,4 +11,18 @@
     <string name="player_text">View and manage your players</string>
     <string name="music_text">View and manage your music</string>
     <string name="job_text">View and manage your jobs</string>
+    <string name="add_job">Add Job</string>
+    <string name="main">Main</string>
+    <string name="job_name_hint">Job Name</string>
+    <string name="enter_date_hint">Enter date</string>
+    <string name="pitch_hint">Pitch</string>
+    <string name="temperature">Temperature</string>
+    <string-array name="weather">
+        <item>Sunny</item>
+        <item>Partly cloudy</item>
+        <item>Overcast</item>
+        <item>Rain</item>
+        <item>Snow</item>
+        <item>Sleet</item>
+    </string-array>
 </resources>

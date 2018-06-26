@@ -1,6 +1,5 @@
 package app.avery.pipemajorhelper;
 
-import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -20,6 +19,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         try {
             String select = "SELECT BandName FROM Info;";
             dbHelper = new DBHelper(this);
@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
                 bandView.setText(bandName);
             }
             else {
-                setContentView(R.layout.infoinput);
+                setContentView(R.layout.info_input_view);
             }
         }
         catch (Exception e){
@@ -86,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
             bandDB.execSQL(removeData);
             bandDB.close();
             dbHelper.close();
-            setContentView(R.layout.infoinput);
+            setContentView(R.layout.info_input_view);
         }
         catch (Exception e){
             Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT);
