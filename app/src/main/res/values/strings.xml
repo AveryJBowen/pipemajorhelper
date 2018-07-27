@@ -17,6 +17,9 @@
     <string name="enter_date_hint">Enter date</string>
     <string name="pitch_hint">Pitch</string>
     <string name="temperature">Temperature</string>
+    <string name="weather_info">Weather Info:</string>
+    <string name="music_set_prompt">Music Sets:</string>
+    <string name="attendance">Attendance:</string>
     <string-array name="weather">
         <item>Sunny</item>
         <item>Partly cloudy</item>
@@ -24,5 +27,30 @@
         <item>Rain</item>
         <item>Snow</item>
         <item>Sleet</item>
+    </string-array>
+    <string-array name="music">
+        <item>First Set</item>
+        <item>Balmoral Set</item>
+        <item>Farewell to the Creeks Set</item>
+        <item>Garb of Auld Gaul Set</item>
+        <item>Amazing Grace</item>
+        <item>High Road to Gairloch</item>
+    </string-array>
+    <string-array name="pipers">
+        <item>Avery</item>
+        <item>Mark</item>
+        <item>Christine</item>
+        <item>Harold</item>
+        <item>Lizzie</item>
+        <item>Guy</item>
+        <item>Don</item>
+    </string-array>
+    <string-array name="drummers">
+        <item>Frank</item>
+        <item>Ryan</item>
+        <item>Kody</item>
+        <item>Kory</item>
+        <item>Sarah</item>
+        <item>Izzie</item>
     </string-array>
 </resources>
