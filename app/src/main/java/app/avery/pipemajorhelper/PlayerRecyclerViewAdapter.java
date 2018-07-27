@@ -12,49 +12,49 @@ import android.widget.Toast;
 
 import java.util.List;
 
-public class SetRecyclerViewAdapter extends RecyclerView.Adapter<SetRecyclerViewAdapter.ViewHolder>{
-    private List<String> setList;
+public class PlayerRecyclerViewAdapter extends RecyclerView.Adapter<PlayerRecyclerViewAdapter.ViewHolder>{
+    private List<String> playerList;
     private Context context;
 
-    public SetRecyclerViewAdapter(List<String> setModelList, Context cxt){
-        setList = setModelList;
+    public PlayerRecyclerViewAdapter(List<String> playerModelList, Context cxt){
+        playerList = playerModelList;
         context = cxt;
     }
 
     @Override
-    public SetRecyclerViewAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType){
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.set_picker_item, parent, false);
+    public PlayerRecyclerViewAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType){
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.player_picker_item, parent, false);
         ViewHolder viewHolder = new ViewHolder(view);
         return viewHolder;
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position){
-        String sName = setList.get(position);
-        holder.setName.setText(sName);
+        String pName = playerList.get(position);
+        holder.playerName.setText(pName);
     }
 
     @Override
     public int getItemCount(){
-        return setList.size();
+        return playerList.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
-        public TextView setName;
+        public TextView playerName;
         public CheckBox selectionState;
 
         public ViewHolder(View view){
             super(view);
-            setName = view.findViewById(R.id.set_name);
-            selectionState = view.findViewById(R.id.set_select);
+            playerName = view.findViewById(R.id.player_name);
+            selectionState = view.findViewById(R.id.player_select);
 
             view.setOnClickListener(this);
             selectionState.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     if(isChecked){
-                        Toast.makeText(SetRecyclerViewAdapter.this.context, "Set is " +
-                                setName.getText(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(PlayerRecyclerViewAdapter.this.context, "Player is " +
+                                playerName.getText(), Toast.LENGTH_SHORT).show();
                     }
                     else {
 

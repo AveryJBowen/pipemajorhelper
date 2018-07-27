@@ -17,11 +17,24 @@
             android:orientation="vertical"
             android:gravity="center">
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/enter_job"
+                android:textColor="@android:color/black"
+                android:textStyle="bold"
+                android:shadowColor="@color/button_color"
+                android:shadowDx="5"
+                android:shadowDy="5"
+                android:shadowRadius="2"
+                android:textSize="22sp"/>
+
             <EditText
                 android:id="@+id/jobName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="24dp"
                 android:ems="10"
                 android:hint="@string/job_name_hint" />
 
@@ -58,6 +71,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:text="@string/weather_info"
+                android:textStyle="bold"
                 android:textColor="@android:color/black"
                 android:textSize="18sp"/>
 
@@ -73,14 +87,18 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:text="@string/music_set_prompt"
+                android:textStyle="bold"
                 android:textColor="@android:color/black"
                 android:textSize="18sp"/>
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/set_lst"
-                android:scrollbars="vertical"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:layout_marginLeft="24dp"
+                android:layout_marginRight="24dp"
+                android:scrollbarStyle="outsideOverlay"
+                android:scrollbars="vertical" />
 
             <TextView
                 android:id="@+id/playerView"
@@ -88,14 +106,18 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:text="@string/attendance"
+                android:textStyle="bold"
                 android:textColor="@android:color/black"
                 android:textSize="18sp" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/player_lst"
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:layout_marginLeft="24dp"
+                android:layout_marginRight="24dp"
                 android:scrollbars="vertical"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:scrollbarStyle="outsideOverlay"/>
 
             <Button
                 android:id="@+id/enterJob"
@@ -105,11 +127,4 @@
                 android:text="@string/add_job" />
         </LinearLayout>
     </ScrollView>
-
-
-
-
-
-
-
 </android.support.constraint.ConstraintLayout>

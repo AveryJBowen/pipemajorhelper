@@ -20,6 +20,7 @@
     <string name="weather_info">Weather Info:</string>
     <string name="music_set_prompt">Music Sets:</string>
     <string name="attendance">Attendance:</string>
+    <string name="enter_job">Enter Job Information Below</string>
     <string-array name="weather">
         <item>Sunny</item>
         <item>Partly cloudy</item>

@@ -28,21 +28,42 @@ public class JobActivity extends AppCompatActivity {
 
     public void addJobClick(View v){
         RecyclerView setRecyclerView;
+        RecyclerView playerRecyclerView;
+
         setContentView(R.layout.add_job_view);
         setRecyclerView = findViewById(R.id.set_lst);
-        LinearLayoutManager recyclerLayoutManager = new LinearLayoutManager(this);
-        setRecyclerView.setLayoutManager(recyclerLayoutManager);
+        playerRecyclerView = findViewById(R.id.player_lst);
 
+        LinearLayoutManager setRecyclerLayoutManager = new LinearLayoutManager(this);
+        setRecyclerView.setLayoutManager(setRecyclerLayoutManager);
         SetRecyclerViewAdapter setRecyclerViewAdapter = new SetRecyclerViewAdapter(getSets(), this);
         setRecyclerView.setAdapter(setRecyclerViewAdapter);
+
+        LinearLayoutManager playerRecyclerLayoutManager = new LinearLayoutManager(this);
+        playerRecyclerView.setLayoutManager(playerRecyclerLayoutManager);
+        PlayerRecyclerViewAdapter playerRecyclerViewAdapter = new PlayerRecyclerViewAdapter(getPlayers(), this);
+        playerRecyclerView.setAdapter(playerRecyclerViewAdapter);
     }
 
     public List<String> getSets(){
         List<String> setList = new ArrayList<String>();
+        //TO DO: GET THIS INFORMATION FROM DATABASE
+        //Testing info below:
         setList.add("First Set");
         setList.add("Balmoral Set");
         setList.add("Farewell to the Creeks Set");
 
         return setList;
+    }
+
+    public List<String> getPlayers(){
+        List<String> playerList = new ArrayList<String>();
+        //TO DO: GET THIS INFORMATION FROM DATABASE
+        //Testing info below:
+        playerList.add("Avery Bowen");
+        playerList.add("Mark Bartfeld");
+        playerList.add("Frank George");
+
+        return playerList;
     }
 }
