@@ -21,6 +21,9 @@
     <string name="music_set_prompt">Music Sets:</string>
     <string name="attendance">Attendance:</string>
     <string name="enter_job">Enter Job Information Below</string>
+    <string name="submit_job">Enter Job</string>
+    <string name="start">Start</string>
+    <string name="enter_name">Enter the job name below:</string>
     <string-array name="weather">
         <item>Sunny</item>
         <item>Partly cloudy</item>
@@ -28,30 +31,5 @@
         <item>Rain</item>
         <item>Snow</item>
         <item>Sleet</item>
-    </string-array>
-    <string-array name="music">
-        <item>First Set</item>
-        <item>Balmoral Set</item>
-        <item>Farewell to the Creeks Set</item>
-        <item>Garb of Auld Gaul Set</item>
-        <item>Amazing Grace</item>
-        <item>High Road to Gairloch</item>
-    </string-array>
-    <string-array name="pipers">
-        <item>Avery</item>
-        <item>Mark</item>
-        <item>Christine</item>
-        <item>Harold</item>
-        <item>Lizzie</item>
-        <item>Guy</item>
-        <item>Don</item>
-    </string-array>
-    <string-array name="drummers">
-        <item>Frank</item>
-        <item>Ryan</item>
-        <item>Kody</item>
-        <item>Kory</item>
-        <item>Sarah</item>
-        <item>Izzie</item>
     </string-array>
 </resources>

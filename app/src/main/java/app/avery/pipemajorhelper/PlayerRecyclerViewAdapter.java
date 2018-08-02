@@ -10,20 +10,25 @@ import android.widget.CompoundButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class PlayerRecyclerViewAdapter extends RecyclerView.Adapter<PlayerRecyclerViewAdapter.ViewHolder>{
+public class PlayerRecyclerViewAdapter extends RecyclerView.Adapter
+        <PlayerRecyclerViewAdapter.ViewHolder>{
     private List<String> playerList;
     private Context context;
+    private OnPlayerItemClick callback;
 
-    public PlayerRecyclerViewAdapter(List<String> playerModelList, Context cxt){
-        playerList = playerModelList;
-        context = cxt;
+    public PlayerRecyclerViewAdapter(List<String> playerList, Context cxt, OnPlayerItemClick listener){
+        this.playerList = playerList;
+        this.callback = listener;
+        this.context = cxt;
     }
 
     @Override
     public PlayerRecyclerViewAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType){
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.player_picker_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.player_picker_item,
+                parent, false);
         ViewHolder viewHolder = new ViewHolder(view);
         return viewHolder;
     }
@@ -53,19 +58,30 @@ public class PlayerRecyclerViewAdapter extends RecyclerView.Adapter<PlayerRecycl
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     if(isChecked){
-                        Toast.makeText(PlayerRecyclerViewAdapter.this.context, "Player is " +
-                                playerName.getText(), Toast.LENGTH_SHORT).show();
+                        addPlayerToAttendanceList(playerName.getText().toString());
                     }
                     else {
-
+                        removePlayerFromAttendanceList(playerName.getText().toString());
                     }
                 }
             });
         }
 
+        public void removePlayerFromAttendanceList(String name){
+            callback.onPlayerUnclick(name);
+            //Toast.makeText(PlayerRecyclerViewAdapter.this.context, "Player " +
+                    //name + " removed from the attendance list", Toast.LENGTH_SHORT).show();
+        }
+
+        public void addPlayerToAttendanceList(String name){
+            callback.onPlayerClick(name);
+            //Toast.makeText(PlayerRecyclerViewAdapter.this.context, "Player " +
+                    //name + " is on the attendance list", Toast.LENGTH_SHORT).show();
+        }
+
         @Override
         public void onClick(View view) {
-            //TO DO: add set name to the list, add to the job table
+
         }
     }
 

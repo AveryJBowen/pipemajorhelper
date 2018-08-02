@@ -10,15 +10,18 @@ import android.widget.CompoundButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class SetRecyclerViewAdapter extends RecyclerView.Adapter<SetRecyclerViewAdapter.ViewHolder>{
     private List<String> setList;
     private Context context;
+    private OnMusicItemClick callback;
 
-    public SetRecyclerViewAdapter(List<String> setModelList, Context cxt){
-        setList = setModelList;
-        context = cxt;
+    public SetRecyclerViewAdapter(List<String> setList, Context cxt, OnMusicItemClick listener){
+        this.setList = setList;
+        this.context = cxt;
+        this.callback = listener;
     }
 
     @Override
@@ -53,14 +56,21 @@ public class SetRecyclerViewAdapter extends RecyclerView.Adapter<SetRecyclerView
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     if(isChecked){
-                        Toast.makeText(SetRecyclerViewAdapter.this.context, "Set is " +
-                                setName.getText(), Toast.LENGTH_SHORT).show();
+                        addSetToList(setName.getText().toString());
                     }
                     else {
-
+                        removeSetFromList(setName.getText().toString());
                     }
                 }
             });
+        }
+
+        public void removeSetFromList(String name){
+            callback.onMusicUnclick(name);
+        }
+
+        public void addSetToList(String name){
+            callback.onMusicClick(name);
         }
 
         @Override
