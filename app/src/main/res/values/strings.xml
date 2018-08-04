@@ -1,3 +1,35 @@
 <resources>
     <string name="app_name">Pipe Major\'s Helper</string>
+    <string name="welcome_text">Welcome! Please enter your name and band name below:</string>
+    <string name="band_name">Band Name</string>
+    <string name="your_name">Your Name</string>
+    <string name="enter">Enter</string>
+    <string name="players">Players</string>
+    <string name="jobs">Jobs</string>
+    <string name="music_sets">Music Sets</string>
+    <string name="change_data">CHANGE DATA</string>
+    <string name="player_text">View and manage your players</string>
+    <string name="music_text">View and manage your music</string>
+    <string name="job_text">View and manage your jobs</string>
+    <string name="add_job">Add Job</string>
+    <string name="main">Main</string>
+    <string name="job_name_hint">Job Name</string>
+    <string name="enter_date_hint">Enter date</string>
+    <string name="pitch_hint">Pitch</string>
+    <string name="temperature">Temperature</string>
+    <string name="weather_info">Weather Info:</string>
+    <string name="music_set_prompt">Music Sets:</string>
+    <string name="attendance">Attendance:</string>
+    <string name="enter_job">Enter Job Information Below</string>
+    <string name="submit_job">Enter Job</string>
+    <string name="start">Start</string>
+    <string name="enter_name">Enter the job name below:</string>
+    <string-array name="weather">
+        <item>Sunny</item>
+        <item>Partly cloudy</item>
+        <item>Overcast</item>
+        <item>Rain</item>
+        <item>Snow</item>
+        <item>Sleet</item>
+    </string-array>
 </resources>
