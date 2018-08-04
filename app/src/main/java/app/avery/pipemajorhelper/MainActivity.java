@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
             startActivity(getIntent());
         }
         catch (Exception e){
-            Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT);
+            Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 

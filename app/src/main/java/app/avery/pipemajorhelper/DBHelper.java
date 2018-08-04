@@ -13,7 +13,7 @@ import java.io.OutputStream;
 
 public class DBHelper extends SQLiteOpenHelper {
     private static final int DB_VERSION = 1;
-    private static String dbName = "band";
+    private static String dbName = "pipeband_db";
     private String dbPath;
     private SQLiteDatabase bandDB;
     private final Context context;
@@ -37,7 +37,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public void copyDB(){
         try{
             if(!checkDB()){
-                InputStream is = context.getResources().openRawResource(R.raw.pipeband);
+                InputStream is = context.getResources().openRawResource(R.raw.pipeband_db);
                 File aFile = new File(dbPath);
                 if(!aFile.exists()){
                     aFile.mkdirs();

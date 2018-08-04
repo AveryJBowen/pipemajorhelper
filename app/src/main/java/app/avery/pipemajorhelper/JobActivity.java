@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.SparseBooleanArray;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -36,10 +37,15 @@ public class JobActivity extends AppCompatActivity {
 
     public void startAddJob(View v){
         EditText job = findViewById(R.id.jobName);
-        String jobName = job.getText().toString();
-        Job newJob = new Job(jobName);
-        Intent addJobIntent = new Intent(this, AddJobActivity.class);
-        addJobIntent.putExtra("Job", newJob);
-        startActivity(addJobIntent);
+        if(!job.getText().toString().isEmpty()){
+            String jobName = job.getText().toString();
+            Intent addJobIntent = new Intent(this, AddJobActivity.class);
+            addJobIntent.putExtra("Job", jobName);
+            startActivity(addJobIntent);
+        }
+        else{
+            Toast.makeText(this, "You must enter a job name!", Toast.LENGTH_SHORT).show();
+        }
+
     }
 }
