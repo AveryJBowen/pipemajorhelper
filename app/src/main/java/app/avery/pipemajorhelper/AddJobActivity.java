@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AddJobActivity extends AppCompatActivity implements OnPlayerItemClick, OnMusicItemClick {
-
+    String bandName;
     String jobName;
     List<String> attendanceList = new ArrayList<String>();
     List<String> musicList = new ArrayList<String>();
@@ -27,6 +27,7 @@ public class AddJobActivity extends AppCompatActivity implements OnPlayerItemCli
         super.onCreate(savedInstanceState);
         Intent i = getIntent();
         jobName = i.getStringExtra("Job");
+        bandName = i.getStringExtra("Band");
 
         setContentView(R.layout.activity_add_job);
 
@@ -219,5 +220,8 @@ public class AddJobActivity extends AppCompatActivity implements OnPlayerItemCli
                 Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         }
+        Intent backToJobIntent = new Intent(this, JobActivity.class);
+        backToJobIntent.putExtra("Name of Band", bandName);
+        startActivity(backToJobIntent);
     }
 }

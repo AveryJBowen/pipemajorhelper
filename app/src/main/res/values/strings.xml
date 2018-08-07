@@ -24,6 +24,7 @@
     <string name="submit_job">Enter Job</string>
     <string name="start">Start</string>
     <string name="enter_name">Enter the job name below:</string>
+    <string name="cancel">Cancel</string>
     <string-array name="weather">
         <item>Sunny</item>
         <item>Partly cloudy</item>
