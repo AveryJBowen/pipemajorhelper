@@ -33,6 +33,7 @@ public class JobActivity extends AppCompatActivity {
         jobListingField.setText("All " + bandName + " Jobs");
 
         setUpView();
+        
     }
 
     public void setUpView(){
