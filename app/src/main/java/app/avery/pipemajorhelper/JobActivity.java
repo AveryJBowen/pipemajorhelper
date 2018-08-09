@@ -19,7 +19,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
-public class JobActivity extends AppCompatActivity {
+public class JobActivity extends AppCompatActivity implements OnJobItemClick {
     public String bandName;
 
     @Override
@@ -33,7 +33,7 @@ public class JobActivity extends AppCompatActivity {
         jobListingField.setText("All " + bandName + " Jobs");
 
         setUpView();
-        
+
     }
 
     public void setUpView(){
@@ -56,7 +56,7 @@ public class JobActivity extends AppCompatActivity {
             RecyclerView jobRecyclerView = findViewById(R.id.job_recycler_view);
             LinearLayoutManager jobRecyclerLayoutManager = new LinearLayoutManager(this);
             jobRecyclerView.setLayoutManager(jobRecyclerLayoutManager);
-            JobRecyclerViewAdapter jobRecyclerViewAdapter = new JobRecyclerViewAdapter(cursorMap, this);
+            JobRecyclerViewAdapter jobRecyclerViewAdapter = new JobRecyclerViewAdapter(cursorMap, this, this);
             jobRecyclerView.setAdapter(jobRecyclerViewAdapter);
         }
         catch (Exception e){
@@ -69,8 +69,43 @@ public class JobActivity extends AppCompatActivity {
         startActivity(mainIntent);
     }
 
+    public void restartJobActivity(View v){
+        setContentView(R.layout.activity_job);
+        setUpView();
+    }
+
     public void addJobClick(View v){
         setContentView(R.layout.add_job_view);
+    }
+
+    public void modifyJob(View v){
+        //TODO: complete modify job method
+    }
+
+    public void deleteJob(View v){
+        String jobToDelete;
+        try{
+            TextView field = findViewById(R.id.job_name_details);
+            jobToDelete = field.getText().toString();
+            DBHelper dbHelper = new DBHelper(this);
+            SQLiteDatabase bandDB = dbHelper.openDB();
+            String execSQL = "DELETE FROM Jobs WHERE EventName='" + jobToDelete + "';";
+            bandDB.execSQL(execSQL);
+
+            //TODO: Delete job attendance list
+
+            //TODO: Delete job music set list
+
+            bandDB.close();
+            dbHelper.close();
+
+            Toast.makeText(this, "Deleted job: " + jobToDelete, Toast.LENGTH_SHORT).show();
+            setContentView(R.layout.activity_job);
+            setUpView();
+        }
+        catch (Exception e){
+            Toast.makeText(this, "Couldn't delete this job!", Toast.LENGTH_SHORT).show();
+        }
     }
 
     public void startAddJob(View v){
@@ -85,5 +120,13 @@ public class JobActivity extends AppCompatActivity {
         else{
             Toast.makeText(this, "You must enter a job name!", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    @Override
+    public void onJobClick(String name) {
+        //TODO: Populate the view with all job details
+        setContentView(R.layout.job_detail_view);
+        TextView jobNameField = findViewById(R.id.job_name_details);
+        jobNameField.setText(name);
     }
 }

@@ -14,10 +14,12 @@ import java.util.List;
 public class JobRecyclerViewAdapter extends RecyclerView.Adapter<JobRecyclerViewAdapter.ViewHolder> {
     private List<HashMap<String, String>> allJobsList;
     private Context context;
+    private OnJobItemClick callback;
 
-    public JobRecyclerViewAdapter(List<HashMap<String, String>> jobListing, Context cxt){
+    public JobRecyclerViewAdapter(List<HashMap<String, String>> jobListing, Context cxt, OnJobItemClick listener){
         this.allJobsList = jobListing;
         this.context = cxt;
+        this.callback = listener;
     }
 
     @Override
@@ -54,8 +56,10 @@ public class JobRecyclerViewAdapter extends RecyclerView.Adapter<JobRecyclerView
 
         @Override
         public void onClick(View view) {
-
-            Toast.makeText(context.getApplicationContext(), "Job selected: ", Toast.LENGTH_SHORT).show();
+            TextView jobSelected = view.findViewById(R.id.job_name_item);
+            String jobName = jobSelected.getText().toString();
+            callback.onJobClick(jobName);
+            //Toast.makeText(context.getApplicationContext(), "Job selected: " + jobName, Toast.LENGTH_SHORT).show();
         }
     }
 }
