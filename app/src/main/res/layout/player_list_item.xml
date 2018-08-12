@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<!-- This is to hold the player list in add job view -->
+<!-- This is to hold the attendance list in job detail view -->
 
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
@@ -8,19 +8,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <TextView
-        android:id="@+id/player_name"
+        android:id="@+id/player_name_item"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@android:color/black"
+        android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
-
-    <CheckBox
-        android:id="@+id/player_select"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBaseline_toBaselineOf="@id/player_name"
-        app:layout_constraintEnd_toEndOf="parent"
-        />
 
 </android.support.constraint.ConstraintLayout>

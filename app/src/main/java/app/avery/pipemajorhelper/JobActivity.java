@@ -13,13 +13,15 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.w3c.dom.Text;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
-public class JobActivity extends AppCompatActivity implements OnJobItemClick {
+public class JobActivity extends AppCompatActivity implements OnJobItemClick, OnAttendanceItemClick, OnSetItemClick {
     public String bandName;
 
     @Override
@@ -28,15 +30,12 @@ public class JobActivity extends AppCompatActivity implements OnJobItemClick {
         setContentView(R.layout.activity_job);
         Intent i = getIntent();
         bandName = i.getStringExtra("Name of Band");
-
-        TextView jobListingField = findViewById(R.id.job_band_name);
-        jobListingField.setText("All " + bandName + " Jobs");
-
         setUpView();
-
     }
 
     public void setUpView(){
+        TextView jobListingField = findViewById(R.id.job_band_name);
+        jobListingField.setText("All " + bandName + " Jobs");
         try{
             String select = "SELECT EventName, Date FROM Jobs;";
             DBHelper dbHelper = new DBHelper(this);
@@ -84,17 +83,28 @@ public class JobActivity extends AppCompatActivity implements OnJobItemClick {
 
     public void deleteJob(View v){
         String jobToDelete;
+        String dateToDelete;
         try{
-            TextView field = findViewById(R.id.job_name_details);
-            jobToDelete = field.getText().toString();
+            TextView nameField = findViewById(R.id.job_name_details);
+            TextView dateField = findViewById(R.id.job_detail_date);
+
+            jobToDelete = nameField.getText().toString();
+            dateToDelete = dateField.getText().toString();
+
             DBHelper dbHelper = new DBHelper(this);
             SQLiteDatabase bandDB = dbHelper.openDB();
-            String execSQL = "DELETE FROM Jobs WHERE EventName='" + jobToDelete + "';";
-            bandDB.execSQL(execSQL);
 
-            //TODO: Delete job attendance list
+            //Delete job from jobs table
+            String jobExecSQL = "DELETE FROM Jobs WHERE EventName='" + jobToDelete + "';";
+            bandDB.execSQL(jobExecSQL);
 
-            //TODO: Delete job music set list
+            //Delete job attendance list
+            String attendExecSQL = "DELETE FROM Attendance WHERE JobName='" + jobToDelete + "' AND Date='" + dateToDelete + "';";
+            bandDB.execSQL(attendExecSQL);
+
+            //Delete job music set list
+            String musicExecSQL = "DELETE FROM MusicPlayed WHERE JobName='" + jobToDelete + "' AND Date='" + dateToDelete + "';";
+            bandDB.execSQL(musicExecSQL);
 
             bandDB.close();
             dbHelper.close();
@@ -104,7 +114,7 @@ public class JobActivity extends AppCompatActivity implements OnJobItemClick {
             setUpView();
         }
         catch (Exception e){
-            Toast.makeText(this, "Couldn't delete this job!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
         }
     }
 
@@ -123,10 +133,97 @@ public class JobActivity extends AppCompatActivity implements OnJobItemClick {
     }
 
     @Override
-    public void onJobClick(String name) {
+    public void onJobClick(String name, String date) {
         //TODO: Populate the view with all job details
         setContentView(R.layout.job_detail_view);
         TextView jobNameField = findViewById(R.id.job_name_details);
+        TextView dateField = findViewById(R.id.job_detail_date);
+        TextView tempField = findViewById(R.id.job_detail_temp);
+        TextView pitchField = findViewById(R.id.job_detail_pitch);
+        TextView weatherField = findViewById(R.id.job_detail_weather);
+        RecyclerView attendView = findViewById(R.id.job_detail_attendance_list);
+        RecyclerView musicView = findViewById(R.id.job_detail_music_list);
+
         jobNameField.setText(name);
+
+        try{
+            String selectJob = "SELECT * FROM Jobs WHERE EventName='" + name + "' AND Date='" + date + "';";
+            String selectAttendance = "SELECT * FROM Attendance WHERE JobName='" + name + "' AND Date='" + date + "';";
+            String selectMusic = "SELECT * FROM MusicPlayed WHERE JobName='" + name + "' AND Date='" + date + "';";
+
+            DBHelper dbHelper = new DBHelper(this);
+            SQLiteDatabase bandDB = dbHelper.openDB();
+            Cursor jobCursor = bandDB.rawQuery(selectJob, null);
+            Cursor attendCursor = bandDB.rawQuery(selectAttendance, null);
+            Cursor musicCursor = bandDB.rawQuery(selectMusic, null);
+
+            List<HashMap<String, String>> jobCursorMap = new ArrayList<HashMap<String, String>>();
+            List<HashMap<String, String>> playerCursorMap = new ArrayList<HashMap<String, String>>();
+            List<HashMap<String, String>> setCursorMap = new ArrayList<HashMap<String, String>>();
+
+            while(jobCursor.moveToNext()){
+                HashMap<String, String> map = new HashMap<>();
+                map.put("EventName", jobCursor.getString(0));
+                map.put("Date", jobCursor.getString(1));
+                map.put("Pitch", jobCursor.getString(2));
+                map.put("Weather", jobCursor.getString(3));
+                map.put("Temperature", jobCursor.getString(4));
+                jobCursorMap.add(map);
+            }
+
+            while (attendCursor.moveToNext()){
+                HashMap<String, String> map = new HashMap<>();
+                map.put("PlayerName", attendCursor.getString(0));
+                playerCursorMap.add(map);
+            }
+
+            while (musicCursor.moveToNext()){
+                HashMap<String, String> map = new HashMap<>();
+                map.put("SetName", musicCursor.getString(0));
+                setCursorMap.add(map);
+            }
+
+            jobCursor.close();
+            attendCursor.close();
+            musicCursor.close();
+
+            bandDB.close();
+            dbHelper.close();
+
+            dateField.setText("Event Date: " + jobCursorMap.get(0).get("Date").toString());
+            pitchField.setText("Pitch: " + jobCursorMap.get(0).get("Pitch").toString());
+            tempField.setText("Temperature: " + jobCursorMap.get(0).get("Temperature").toString());
+            weatherField.setText("Weather Conditions: " + jobCursorMap.get(0).get("Weather").toString());
+
+            LinearLayoutManager attendanceRecyclerLayoutManager = new LinearLayoutManager(this);
+            attendView.setLayoutManager(attendanceRecyclerLayoutManager);
+            AttendanceRecyclerViewAdapter attendanceRecyclerViewAdapter =
+                    new AttendanceRecyclerViewAdapter(playerCursorMap, this, this);
+            attendView.setAdapter(attendanceRecyclerViewAdapter);
+
+            LinearLayoutManager musicRecyclerLayoutManager = new LinearLayoutManager(this);
+            musicView.setLayoutManager(musicRecyclerLayoutManager);
+            MusicRecyclerViewAdapter musicRecyclerViewAdapter =
+                    new MusicRecyclerViewAdapter(setCursorMap, this, this);
+            musicView.setAdapter(musicRecyclerViewAdapter);
+
+        }
+        catch (Exception e){
+            Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public void onAttendanceClick(String name) {
+        Intent showPlayerDetail = new Intent(this, PlayerActivity.class);
+        showPlayerDetail.putExtra("Detail", name);
+        startActivity(showPlayerDetail);
+    }
+
+    @Override
+    public void OnSetClick(String name) {
+        Intent showSetDetail = new Intent(this, MusicActivity.class);
+        showSetDetail.putExtra("Detail", name);
+        startActivity(showSetDetail);
     }
 }

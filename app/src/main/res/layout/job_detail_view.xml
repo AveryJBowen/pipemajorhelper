@@ -21,53 +21,82 @@
                 android:id="@+id/job_name_details"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
                 android:textColor="@android:color/black"
                 android:textStyle="bold"
                 android:shadowColor="@color/button_color"
                 android:shadowDx="5"
                 android:shadowDy="5"
                 android:shadowRadius="2"
-                android:textSize="22sp"/>
+                android:textSize="36sp"/>
 
             <TextView
                 android:id="@+id/job_detail_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"/>
+                android:layout_marginTop="16dp"
+                android:textSize="20sp"
+                android:textColor="@android:color/black"/>
 
             <TextView
                 android:id="@+id/job_detail_temp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"/>
+                android:layout_marginTop="16dp"
+                android:textSize="20sp"
+                android:textColor="@android:color/black"/>
 
             <TextView
                 android:id="@+id/job_detail_pitch"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"/>
+                android:layout_marginTop="16dp"
+                android:textSize="20sp"
+                android:textColor="@android:color/black"/>
 
             <TextView
                 android:id="@+id/job_detail_weather"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"/>
+                android:layout_marginTop="16dp"
+                android:textSize="20sp"
+                android:textColor="@android:color/black"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/attendance"
+                android:textAllCaps="true"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="@android:color/black"/>
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/job_detail_attendance_list"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="120dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="8dp"
                 android:layout_marginLeft="24dp"
                 android:layout_marginRight="24dp"
                 android:scrollbarStyle="outsideOverlay"
                 android:scrollbars="vertical"/>
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/music_sets"
+                android:textSize="20sp"
+                android:textAllCaps="true"
+                android:textStyle="bold"
+                android:textColor="@android:color/black"/>
+
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/job_detail_music_list"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="120dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="8dp"
                 android:layout_marginLeft="24dp"
                 android:layout_marginRight="24dp"
                 android:scrollbarStyle="outsideOverlay"
@@ -88,7 +117,8 @@
                     android:layout_marginBottom="32dp"
                     android:layout_marginTop="32dp"
                     android:onClick="restartJobActivity"
-                    android:text="@string/back"/>
+                    android:text="@string/back"
+                    android:textSize="16sp"/>
 
                 <Button
                     android:id="@+id/modify_job_button"
@@ -100,6 +130,7 @@
                     android:layout_marginRight="32dp"
                     android:layout_marginLeft="32dp"
                     android:onClick="modifyJob"
+                    android:textSize="16sp"
                     style="?android:attr/buttonBarButtonStyle"/>
 
                 <Button
@@ -110,6 +141,7 @@
                     android:layout_marginTop="32dp"
                     android:text="@string/delete_job"
                     android:onClick="deleteJob"
+                    android:textSize="16sp"
                     style="?android:attr/buttonBarButtonStyle"/>
             </LinearLayout>
         </LinearLayout>

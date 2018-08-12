@@ -57,8 +57,10 @@ public class JobRecyclerViewAdapter extends RecyclerView.Adapter<JobRecyclerView
         @Override
         public void onClick(View view) {
             TextView jobSelected = view.findViewById(R.id.job_name_item);
+            TextView jobDateSelected = view.findViewById(R.id.job_date_item);
             String jobName = jobSelected.getText().toString();
-            callback.onJobClick(jobName);
+            String jobDateSelect = jobDateSelected.getText().toString();
+            callback.onJobClick(jobName, jobDateSelect);
             //Toast.makeText(context.getApplicationContext(), "Job selected: " + jobName, Toast.LENGTH_SHORT).show();
         }
     }
