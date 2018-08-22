@@ -118,30 +118,6 @@ public class AddJobActivity extends AppCompatActivity implements OnPlayerItemCli
         return musicToken;
     }
 
-    private void testMethod(String name){
-        try{
-            String select = "SELECT EventName FROM Jobs WHERE EventName='" + name + "';";
-            DBHelper dbHelper;
-            SQLiteDatabase bandDB;
-            dbHelper = new DBHelper(this);
-            bandDB = dbHelper.openDB();
-            Cursor c = bandDB.rawQuery(select, null);
-            if(c.moveToFirst()){
-                Toast.makeText(getApplicationContext(), "The job " + name + " is in the Jobs table!",
-                        Toast.LENGTH_SHORT).show();
-            }
-            else {
-                Toast.makeText(getApplicationContext(), "Job not found!", Toast.LENGTH_SHORT).show();
-            }
-
-            bandDB.close();
-            dbHelper.close();
-        }
-        catch (Exception e){
-            Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
-        }
-    }
-
     public void enterJobToDB(View v){
         DBHelper dbHelper;
         SQLiteDatabase bandDB;
@@ -160,7 +136,6 @@ public class AddJobActivity extends AppCompatActivity implements OnPlayerItemCli
 
         boolean dateExists = doesDateExist();
 
-        //TODO: all other information entered --> Jobs table
         //Jobs may be entered as 'placeholders' - with only a name, empty strings are acceptable
         try {
             dbHelper = new DBHelper(this);
@@ -173,15 +148,12 @@ public class AddJobActivity extends AppCompatActivity implements OnPlayerItemCli
 
             bandDB.close();
             dbHelper.close();
-
-            testMethod(jobName);
         }
+
         catch (Exception e){
             Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
-
         }
 
-        //TODO: attendanceList --> Attendance table
         if(dateExists && attendanceTaken()){
             try{
                 dbHelper = new DBHelper(this);
@@ -201,7 +173,6 @@ public class AddJobActivity extends AppCompatActivity implements OnPlayerItemCli
             }
         }
 
-        //TODO: musicList --> MusicPlayed table
         if(dateExists && setsEntered()){
             try{
                 dbHelper = new DBHelper(this);

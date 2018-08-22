@@ -21,8 +21,12 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
-public class JobActivity extends AppCompatActivity implements OnJobItemClick, OnAttendanceItemClick, OnSetItemClick {
+public class JobActivity extends AppCompatActivity implements OnJobItemClick, OnAttendanceItemClick,
+        OnSetItemClick, OnPlayerItemClick, OnMusicItemClick {
     public String bandName;
+    public String jobToMod, dateToMod, weatherToMod, pitchToMod, tempToMod;
+    List<String> attendanceListForMod = new ArrayList<String>();
+    List<String> musicListForMod = new ArrayList<String>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,7 +82,31 @@ public class JobActivity extends AppCompatActivity implements OnJobItemClick, On
     }
 
     public void modifyJob(View v){
-        //TODO: complete modify job method
+
+        setContentView(R.layout.job_modify_view);
+        EditText modName = findViewById(R.id.mod_job_name);
+        EditText modDate = findViewById(R.id.mod_job_date);
+        EditText modTemp = findViewById(R.id.mod_job_temp);
+        EditText modPitch = findViewById(R.id.mod_job_pitch);
+        RecyclerView attendToModView = findViewById(R.id.mod_job_player_lst);
+        RecyclerView musicToModView = findViewById(R.id.mod_job_set_lst);
+
+        modName.setText(jobToMod);
+        modDate.setText(dateToMod);
+        modTemp.setText(tempToMod);
+        modPitch.setText(pitchToMod);
+
+        //TODO: Fix this: should populate with all the sets, and show sets in current job as checked
+        LinearLayoutManager setRecyclerLayoutManager = new LinearLayoutManager(this);
+        musicToModView.setLayoutManager(setRecyclerLayoutManager);
+        SetRecyclerViewAdapter setRecyclerViewAdapter = new SetRecyclerViewAdapter(musicListForMod, this, this);
+        musicToModView.setAdapter(setRecyclerViewAdapter);
+
+        LinearLayoutManager playerRecyclerLayoutManager = new LinearLayoutManager(this);
+        attendToModView.setLayoutManager(playerRecyclerLayoutManager);
+        PlayerRecyclerViewAdapter playerRecyclerViewAdapter = new PlayerRecyclerViewAdapter(attendanceListForMod, this, this);
+        attendToModView.setAdapter(playerRecyclerViewAdapter);
+
     }
 
     public void deleteJob(View v){
@@ -132,9 +160,18 @@ public class JobActivity extends AppCompatActivity implements OnJobItemClick, On
         }
     }
 
+    public void saveJob(View v){
+        //TODO: Complete gathering information and saving job to Jobs table
+
+        //TODO: Update Attendance table
+
+        //TODO: Update MusicPlayed table
+    }
+
+    //CLICKER LISTENER METHODS
     @Override
     public void onJobClick(String name, String date) {
-        //TODO: Populate the view with all job details
+
         setContentView(R.layout.job_detail_view);
         TextView jobNameField = findViewById(R.id.job_name_details);
         TextView dateField = findViewById(R.id.job_detail_date);
@@ -164,20 +201,27 @@ public class JobActivity extends AppCompatActivity implements OnJobItemClick, On
             while(jobCursor.moveToNext()){
                 HashMap<String, String> map = new HashMap<>();
                 map.put("EventName", jobCursor.getString(0));
+                jobToMod = jobCursor.getString(0);
                 map.put("Date", jobCursor.getString(1));
+                dateToMod = jobCursor.getString(1);
                 map.put("Pitch", jobCursor.getString(2));
+                pitchToMod = jobCursor.getString(2);
                 map.put("Weather", jobCursor.getString(3));
+                weatherToMod = jobCursor.getString(3);
                 map.put("Temperature", jobCursor.getString(4));
+                tempToMod = jobCursor.getString(4);
                 jobCursorMap.add(map);
             }
 
             while (attendCursor.moveToNext()){
+                attendanceListForMod.add(attendCursor.getString(0));
                 HashMap<String, String> map = new HashMap<>();
                 map.put("PlayerName", attendCursor.getString(0));
                 playerCursorMap.add(map);
             }
 
             while (musicCursor.moveToNext()){
+                musicListForMod.add(musicCursor.getString(0));
                 HashMap<String, String> map = new HashMap<>();
                 map.put("SetName", musicCursor.getString(0));
                 setCursorMap.add(map);
@@ -225,5 +269,25 @@ public class JobActivity extends AppCompatActivity implements OnJobItemClick, On
         Intent showSetDetail = new Intent(this, MusicActivity.class);
         showSetDetail.putExtra("Detail", name);
         startActivity(showSetDetail);
+    }
+
+    @Override
+    public void onMusicClick(String name) {
+        musicListForMod.add(name);
+    }
+
+    @Override
+    public void onMusicUnclick(String name) {
+        musicListForMod.remove(name);
+    }
+
+    @Override
+    public void onPlayerClick(String name) {
+        attendanceListForMod.add(name);
+    }
+
+    @Override
+    public void onPlayerUnclick(String name) {
+        attendanceListForMod.remove(name);
     }
 }

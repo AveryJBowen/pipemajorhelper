@@ -75,7 +75,6 @@ public class SetRecyclerViewAdapter extends RecyclerView.Adapter<SetRecyclerView
 
         @Override
         public void onClick(View view) {
-            //TO DO: add set name to the list, add to the job table
         }
     }
 
