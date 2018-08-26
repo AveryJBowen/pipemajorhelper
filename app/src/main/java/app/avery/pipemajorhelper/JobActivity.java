@@ -85,7 +85,6 @@ public class JobActivity extends AppCompatActivity implements OnJobItemClick, On
     }
 
     public void modifyJob(View v){
-
         setContentView(R.layout.job_modify_view);
         TextView modName = findViewById(R.id.mod_job_name);
         EditText modDate = findViewById(R.id.mod_job_date);
@@ -155,7 +154,7 @@ public class JobActivity extends AppCompatActivity implements OnJobItemClick, On
             SQLiteDatabase bandDB = dbHelper.openDB();
 
             //Delete job from jobs table
-            String jobExecSQL = "DELETE FROM Jobs WHERE EventName='" + jobToDelete + "';";
+            String jobExecSQL = "DELETE FROM Jobs WHERE EventName='" + jobToDelete + "' AND Date='" + dateToDelete + "';";
             bandDB.execSQL(jobExecSQL);
 
             //Delete job attendance list
@@ -216,8 +215,6 @@ public class JobActivity extends AppCompatActivity implements OnJobItemClick, On
             dbHelper = new DBHelper(this);
             bandDB = dbHelper.openDB();
             bandDB.execSQL(modJobStatement);
-
-            //TODO: Need to fix attendance and set modifications - doesn't delete old entries
 
             //clear attendance list for job and remake:
             bandDB.execSQL("DELETE FROM Attendance WHERE JobName='" + name + "' AND Date='" + oldJobDate + "';");
@@ -355,7 +352,9 @@ public class JobActivity extends AppCompatActivity implements OnJobItemClick, On
 
     @Override
     public void onMusicClick(String name) {
-        musicListForMod.add(name);
+        if(!musicListForMod.contains(name)){
+            musicListForMod.add(name);
+        }
     }
 
     @Override
@@ -365,7 +364,9 @@ public class JobActivity extends AppCompatActivity implements OnJobItemClick, On
 
     @Override
     public void onPlayerClick(String name) {
-        attendanceListForMod.add(name);
+        if(!attendanceListForMod.contains(name)){
+            attendanceListForMod.add(name);
+        }
     }
 
     @Override
