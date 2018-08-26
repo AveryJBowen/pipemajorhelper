@@ -8,18 +8,26 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class SetRecyclerViewAdapter extends RecyclerView.Adapter<SetRecyclerViewAdapter.ViewHolder>{
-    private List<String> setList;
+    private List<String> wholeSetList;
+    private List<String> selectedList;
+    private boolean selectedListExists = false;
     private Context context;
     private OnMusicItemClick callback;
 
     public SetRecyclerViewAdapter(List<String> setList, Context cxt, OnMusicItemClick listener){
-        this.setList = setList;
+        this.wholeSetList = setList;
+        this.context = cxt;
+        this.callback = listener;
+    }
+
+    public SetRecyclerViewAdapter(List<String> setList, List<String> selectedList, Context cxt, OnMusicItemClick listener){
+        this.wholeSetList = setList;
+        this.selectedList = selectedList;
+        this.selectedListExists = true;
         this.context = cxt;
         this.callback = listener;
     }
@@ -33,13 +41,18 @@ public class SetRecyclerViewAdapter extends RecyclerView.Adapter<SetRecyclerView
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position){
-        String sName = setList.get(position);
+        String sName = wholeSetList.get(position);
         holder.setName.setText(sName);
+        if(selectedListExists){
+            if(selectedList.contains(sName)){
+                holder.selectionState.setChecked(true);
+            }
+        }
     }
 
     @Override
     public int getItemCount(){
-        return setList.size();
+        return wholeSetList.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
@@ -75,7 +88,6 @@ public class SetRecyclerViewAdapter extends RecyclerView.Adapter<SetRecyclerView
 
         @Override
         public void onClick(View view) {
-            //TO DO: add set name to the list, add to the job table
         }
     }
 

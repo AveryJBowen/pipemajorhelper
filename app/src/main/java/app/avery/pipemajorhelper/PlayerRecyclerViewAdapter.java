@@ -8,21 +8,29 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class PlayerRecyclerViewAdapter extends RecyclerView.Adapter
         <PlayerRecyclerViewAdapter.ViewHolder>{
-    private List<String> playerList;
+    private List<String> wholePlayerList;
+    private List<String> selectedList;
+    private boolean selectedListExists = false;
     private Context context;
     private OnPlayerItemClick callback;
 
     public PlayerRecyclerViewAdapter(List<String> playerList, Context cxt, OnPlayerItemClick listener){
-        this.playerList = playerList;
+        this.wholePlayerList = playerList;
         this.callback = listener;
         this.context = cxt;
+    }
+
+    public PlayerRecyclerViewAdapter(List<String> playerList, List<String> selectedList, Context cxt, OnPlayerItemClick listener){
+        this.wholePlayerList = playerList;
+        this.selectedList = selectedList;
+        this.selectedListExists = true;
+        this.context = cxt;
+        this.callback = listener;
     }
 
     @Override
@@ -35,13 +43,18 @@ public class PlayerRecyclerViewAdapter extends RecyclerView.Adapter
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position){
-        String pName = playerList.get(position);
+        String pName = wholePlayerList.get(position);
         holder.playerName.setText(pName);
+        if(selectedListExists){
+            if(selectedList.contains(pName)){
+                holder.selectionState.setChecked(true);
+            }
+        }
     }
 
     @Override
     public int getItemCount(){
-        return playerList.size();
+        return wholePlayerList.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
