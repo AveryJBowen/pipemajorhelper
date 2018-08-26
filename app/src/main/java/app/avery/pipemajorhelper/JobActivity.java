@@ -7,9 +7,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,6 +26,7 @@ import java.util.List;
 public class JobActivity extends AppCompatActivity implements OnJobItemClick, OnAttendanceItemClick,
         OnSetItemClick, OnPlayerItemClick, OnMusicItemClick {
     public String bandName;
+    public String oldJobDate;
     public String jobToMod, dateToMod, weatherToMod, pitchToMod, tempToMod;
     List<String> attendanceListForMod = new ArrayList<String>();
     List<String> musicListForMod = new ArrayList<String>();
@@ -84,10 +87,11 @@ public class JobActivity extends AppCompatActivity implements OnJobItemClick, On
     public void modifyJob(View v){
 
         setContentView(R.layout.job_modify_view);
-        EditText modName = findViewById(R.id.mod_job_name);
+        TextView modName = findViewById(R.id.mod_job_name);
         EditText modDate = findViewById(R.id.mod_job_date);
         EditText modTemp = findViewById(R.id.mod_job_temp);
         EditText modPitch = findViewById(R.id.mod_job_pitch);
+        Spinner modWeather = findViewById(R.id.mod_job_weatherSpinner);
         RecyclerView attendToModView = findViewById(R.id.mod_job_player_lst);
         RecyclerView musicToModView = findViewById(R.id.mod_job_set_lst);
 
@@ -96,17 +100,45 @@ public class JobActivity extends AppCompatActivity implements OnJobItemClick, On
         modTemp.setText(tempToMod);
         modPitch.setText(pitchToMod);
 
-        //TODO: Fix this: should populate with all the sets, and show sets in current job as checked
+        for(int i = 0; i <modWeather.getAdapter().getCount(); i++){
+            if(modWeather.getAdapter().getItem(i).toString().contains(weatherToMod)){
+                modWeather.setSelection(i);
+            }
+        }
+
         LinearLayoutManager setRecyclerLayoutManager = new LinearLayoutManager(this);
         musicToModView.setLayoutManager(setRecyclerLayoutManager);
-        SetRecyclerViewAdapter setRecyclerViewAdapter = new SetRecyclerViewAdapter(musicListForMod, this, this);
+        SetRecyclerViewAdapter setRecyclerViewAdapter = new SetRecyclerViewAdapter(getSets(),
+                musicListForMod, this, this);
         musicToModView.setAdapter(setRecyclerViewAdapter);
 
         LinearLayoutManager playerRecyclerLayoutManager = new LinearLayoutManager(this);
         attendToModView.setLayoutManager(playerRecyclerLayoutManager);
-        PlayerRecyclerViewAdapter playerRecyclerViewAdapter = new PlayerRecyclerViewAdapter(attendanceListForMod, this, this);
+        PlayerRecyclerViewAdapter playerRecyclerViewAdapter = new PlayerRecyclerViewAdapter(getPlayers(),
+                attendanceListForMod, this, this);
         attendToModView.setAdapter(playerRecyclerViewAdapter);
+    }
 
+    public List<String> getSets(){
+        List<String> setList = new ArrayList<String>();
+        //TODO: GET THIS INFORMATION FROM DATABASE
+        //Testing info below:
+        setList.add("First Set");
+        setList.add("Balmoral Set");
+        setList.add("Farewell to the Creeks Set");
+
+        return setList;
+    }
+
+    public List<String> getPlayers(){
+        List<String> playerList = new ArrayList<String>();
+        //TODO: GET THIS INFORMATION FROM DATABASE
+        //Testing info below:
+        playerList.add("Avery Bowen");
+        playerList.add("Mark Bartfeld");
+        playerList.add("Frank George");
+
+        return playerList;
     }
 
     public void deleteJob(View v){
@@ -161,16 +193,66 @@ public class JobActivity extends AppCompatActivity implements OnJobItemClick, On
     }
 
     public void saveJob(View v){
-        //TODO: Complete gathering information and saving job to Jobs table
+        DBHelper dbHelper;
+        SQLiteDatabase bandDB;
 
-        //TODO: Update Attendance table
+        TextView modName = findViewById(R.id.mod_job_name);
+        EditText modDate = findViewById(R.id.mod_job_date);
+        EditText modTemp = findViewById(R.id.mod_job_temp);
+        EditText modPitch = findViewById(R.id.mod_job_pitch);
+        Spinner modWeather = findViewById(R.id.mod_job_weatherSpinner);
 
-        //TODO: Update MusicPlayed table
+        String name = modName.getText().toString();
+        String mDate = modDate.getText().toString();
+        String mTemp = modTemp.getText().toString();
+        String mPitch = modPitch.getText().toString();
+        String mWeather = modWeather.getSelectedItem().toString();
+
+        String modJobStatement = "UPDATE Jobs SET Date='" + mDate + "', ChanterPitch='" + mPitch + "', " +
+                "Weather='" + mWeather + "', Temperature='" + mTemp + "' WHERE EventName='" + name
+                + "' AND Date='" + oldJobDate + "';";
+
+        try{
+            dbHelper = new DBHelper(this);
+            bandDB = dbHelper.openDB();
+            bandDB.execSQL(modJobStatement);
+
+            //TODO: Need to fix attendance and set modifications - doesn't delete old entries
+
+            //clear attendance list for job and remake:
+            bandDB.execSQL("DELETE FROM Attendance WHERE JobName='" + name + "' AND Date='" + oldJobDate + "';");
+
+            for(String player : attendanceListForMod){
+                String modAttendStatement = "INSERT INTO Attendance (PlayerName, JobName, Date) " +
+                        "VALUES ('" + player + "','" + name + "','" + mDate + "');";
+                bandDB.execSQL(modAttendStatement);
+            }
+
+            //clear set list for job and remake:
+            bandDB.execSQL("DELETE FROM MusicPlayed WHERE JobName='" + name + "' AND Date='" + oldJobDate + "';");
+
+            for(String set : musicListForMod){
+                String modSetStatement = "INSERT INTO MusicPlayed (SetName, JobName, Date) " +
+                        "VALUES ('" + set + "','" + name + "','" + mDate + "');";
+                bandDB.execSQL(modSetStatement);
+            }
+
+            bandDB.close();
+            dbHelper.close();
+            Toast.makeText(this, "Successfully modified job", Toast.LENGTH_SHORT).show();
+            setContentView(R.layout.activity_job);
+            setUpView();
+        }
+        catch (Exception e){
+            Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
     }
 
     //CLICKER LISTENER METHODS
     @Override
     public void onJobClick(String name, String date) {
+        attendanceListForMod.clear();
+        musicListForMod.clear();
 
         setContentView(R.layout.job_detail_view);
         TextView jobNameField = findViewById(R.id.job_name_details);
@@ -204,6 +286,7 @@ public class JobActivity extends AppCompatActivity implements OnJobItemClick, On
                 jobToMod = jobCursor.getString(0);
                 map.put("Date", jobCursor.getString(1));
                 dateToMod = jobCursor.getString(1);
+                oldJobDate = dateToMod;
                 map.put("Pitch", jobCursor.getString(2));
                 pitchToMod = jobCursor.getString(2);
                 map.put("Weather", jobCursor.getString(3));
@@ -250,7 +333,6 @@ public class JobActivity extends AppCompatActivity implements OnJobItemClick, On
             MusicRecyclerViewAdapter musicRecyclerViewAdapter =
                     new MusicRecyclerViewAdapter(setCursorMap, this, this);
             musicView.setAdapter(musicRecyclerViewAdapter);
-
         }
         catch (Exception e){
             Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();

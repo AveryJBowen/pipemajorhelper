@@ -80,10 +80,18 @@ public class MainActivity extends AppCompatActivity {
 
     public void changeDataClick(View v){
         String removeData = "DELETE FROM Info WHERE BandName='" + bandName + "';";
+        String emptyJobs = "DELETE FROM Jobs;";
+        String emptyAttendance = "DELETE FROM Attendance;";
+        String emptySets = "DELETE FROM MusicPlayed;";
         try{
             dbHelper = new DBHelper(this);
             bandDB = dbHelper.openDB();
+
             bandDB.execSQL(removeData);
+            bandDB.execSQL(emptyJobs);
+            bandDB.execSQL(emptyAttendance);
+            bandDB.execSQL(emptySets);
+
             bandDB.close();
             dbHelper.close();
             setContentView(R.layout.info_input_view);
