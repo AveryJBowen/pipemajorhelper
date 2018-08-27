@@ -63,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
     public void playerClick(View v){
         Intent playerIntent = new Intent(this, PlayerActivity.class);
         playerIntent.putExtra("Name of Band", bandName);
+        playerIntent.putExtra("Detail", "");
         startActivity(playerIntent);
     }
 

@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".JobActivity">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -24,27 +22,27 @@
             android:shadowDx="5"
             android:shadowDy="5"
             android:shadowRadius="2"
-            android:text="@string/enter_job_name"
+            android:text="@string/enter_player_name"
             android:textColor="@android:color/black"
             android:textSize="22sp"
             android:textStyle="bold" />
 
         <EditText
-            android:id="@+id/jobName"
+            android:id="@+id/new_player_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
             android:ems="10"
-            android:hint="@string/job_name_hint" />
+            android:hint="@string/player_name" />
 
         <Button
-            android:id="@+id/enterJob"
+            android:id="@+id/enterPlayer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="32dp"
             android:layout_marginTop="32dp"
             android:text="@string/start"
-            android:onClick="startAddJob"/>
+            android:onClick="startAddPlayer"/>
 
         <Button
             android:layout_width="wrap_content"
@@ -52,6 +50,7 @@
             android:layout_marginBottom="32dp"
             android:layout_marginTop="32dp"
             android:text="@string/cancel"
-            android:onClick="restartJobActivity"/>
+            android:onClick="restartPlayerActivity"/>
     </LinearLayout>
+
 </android.support.constraint.ConstraintLayout>

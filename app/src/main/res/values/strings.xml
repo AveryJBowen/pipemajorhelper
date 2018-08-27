@@ -23,12 +23,15 @@
     <string name="enter_job">Enter Job Information Below</string>
     <string name="submit_job">Enter Job</string>
     <string name="start">Start</string>
-    <string name="enter_name">Enter the job name below:</string>
+    <string name="enter_job_name">Enter the job name below:</string>
     <string name="cancel">Cancel</string>
     <string name="back">Back</string>
     <string name="modify_job">Modify Job</string>
     <string name="delete_job">Delete job</string>
     <string name="save_changes">Save Changes</string>
+    <string name="add_player">Add Player</string>
+    <string name="enter_player_name">Enter player\'s name below:</string>
+    <string name="player_name">Player Name</string>
     <string-array name="weather">
         <item>Sunny</item>
         <item>Partly cloudy</item>

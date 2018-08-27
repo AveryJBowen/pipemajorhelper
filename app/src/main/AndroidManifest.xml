@@ -18,7 +18,8 @@
         <activity android:name=".PlayerActivity" />
         <activity android:name=".JobActivity" />
         <activity android:name=".MusicActivity" />
-        <activity android:name=".AddJobActivity"></activity>
+        <activity android:name=".AddJobActivity" />
+        <activity android:name=".AddPlayerActivity"></activity>
     </application>
 
 </manifest>
